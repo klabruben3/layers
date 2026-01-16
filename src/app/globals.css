@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* color palette */
+  --primary-color: #d4a574;
+  --light-blue-gray: #e8edf5;
+  --blue-gray: #2d3748;
+  --black-ish: #121212;
+  --dark-gray: #262626;
+  --gray: #444444;
+  --orange-yellow: #f59e0b;
+
+
+  /* Dimensions */
+  --rounded-border: 10px;
+  --global-spacing: 10px;
+}
+
+html[data-theme="light"] {
+  --background: var(--dark-gray);
+  --foreground: var(--light-gray);
+}
+html[data-theme="dark"] {
+  --background: var(--black-ish);
+  --foreground: black;
+  
+  --text-color: var(--light-blue-gray)
 }
 
 @theme inline {
+  /* Color palette */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-primary: var(--primary-color);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* dimensions */
+  --radius-border: var(--rounded-border);
+  --spacing-global: var(--global-spacing);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text-color);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.card, header, aside{
+  background-color: var(--foreground);
 }
