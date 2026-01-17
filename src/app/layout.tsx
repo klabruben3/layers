@@ -1,5 +1,6 @@
 import {
   MediaQueryProvider,
+  NavigationContextProvider,
   SidebarWidthProvider,
   ThemeProvider,
 } from "@/contexts";
@@ -32,8 +33,10 @@ export default function RootLayout({
               <SidebarWidthProvider>
                 <Header />
                 <main className="relative flex-1 overflow-hidden flex">
-                  <LeftSideBar />
-                  {children}
+                  <NavigationContextProvider>
+                    <LeftSideBar />
+                    {children}
+                  </NavigationContextProvider>
                   <RightSideBar />
                 </main>
               </SidebarWidthProvider>

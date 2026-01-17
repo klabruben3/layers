@@ -5,3 +5,4 @@ export {
 } from "./DeviceContext";
 export { ThemeProvider, useThemeContext } from "./ThemeContext";
 export { SidebarWidthProvider, useSidebarContext } from "./SidebarContext";
+export { useNavContext, NavigationContextProvider } from "./NavigationContext";

@@ -36,15 +36,19 @@ function LeftSideBar() {
   usePointerReveal({
     enabled: device === "mobile",
     open: navState == "open",
-    ref: {reveal: triggerRef, close: sidebarRef},
+    triggerAxis: "horizontal",
+    triggerOffset: 50,
+    ref: { reveal: triggerRef, close: sidebarRef },
     onReveal: () => setNavState("open"),
     onClose: () => setNavState("closed"),
   });
 
   usePointerReveal({
-    open: navState == "open",
+    open: extend,
     enabled: device === "tablet",
-    ref: {reveal: sidebarRef, close: sidebarRef},
+    triggerAxis: "horizontal",
+    triggerOffset: 50,
+    ref: { reveal: sidebarRef, close: sidebarRef },
     onReveal: () => setExtend(true),
     onClose: () => setExtend(false),
   });
@@ -53,9 +57,8 @@ function LeftSideBar() {
     <>
       {device == "mobile" && (
         <button
-          id="nav-trigger"
           ref={triggerRef}
-          className="z-5 touch-none absolute left-0 top-0 w-3 h-full"
+          className="z-5 absolute left-0 top-0 w-3 h-full"
         />
       )}
       <AnimatePresence>
@@ -63,7 +66,6 @@ function LeftSideBar() {
           <>
             <motion.aside
               key="nav"
-              id="sidebar"
               ref={sidebarRef}
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -72,7 +74,7 @@ function LeftSideBar() {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
-              className="select-none touch-none h-full bg-background border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10"
+              className="select-none h-full bg-background border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10"
             >
               <Navigation device={device} extend={extend} />
             </motion.aside>

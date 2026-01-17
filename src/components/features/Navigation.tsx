@@ -1,36 +1,24 @@
 "use client";
 
-import { Device } from "@/contexts";
+import { Device, useNavContext } from "@/contexts";
 import {
   Bookmark,
   Code2,
   Compass,
   Home,
-  LucideIcon,
   TrendingUp,
   Users,
 } from "lucide-react";
-import {Button} from "../ui/";
+import { Button } from "../ui/";
 import { useState } from "react";
 import { motion } from "motion/react";
-
-type NavigationTitle =
-  | "Home"
-  | "Explore"
-  | "Trending"
-  | "Saved"
-  | "Following"
-  | "My Components";
-interface NavLinkProp {
-  title: NavigationTitle;
-  icon: LucideIcon;
-}
+import { NavigationTitle, NavLinkProp } from "@/types";
 
 export default function Navigation({
   device,
   extend,
 }: {
-  device: Device;
+  device: Device | null;
   extend: boolean;
 }) {
   const navLinks: NavLinkProp[] = [
@@ -41,17 +29,17 @@ export default function Navigation({
     { title: "Following", icon: Users },
     { title: "My Components", icon: Code2 },
   ];
-  const [navState, setNavState] = useState<NavigationTitle>("Home");
+  const { navTitle, setNavTitle } = useNavContext();
 
   return (
     <>
       <div className="p-global">
         {navLinks.map((navLink, i) => (
           <Button
-            onClick={() => setNavState(navLink.title)}
+            onPointerDown={() => setNavTitle(navLink.title)}
             key={navLink.title}
             className={`${
-              navState == navLink.title
+              navTitle == navLink.title
                 ? "text-primary bg-[var(--dark-gray)]"
                 : "text-white"
             } flex gap-2 w-full`}

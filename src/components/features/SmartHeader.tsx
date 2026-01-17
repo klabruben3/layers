@@ -18,6 +18,8 @@ export default function SmartHeader({ children }: Children) {
   usePointerReveal({
     enabled: device !== "desktop",
     open: search == "open",
+    triggerAxis: "vertical",
+    triggerOffset: 50,
     ref: { reveal: openTriggerRef, close: closeTriggerRef },
     onReveal: () => setSearch("open"),
     onClose: () => setSearch("closed"),
@@ -32,9 +34,8 @@ export default function SmartHeader({ children }: Children) {
   return (
     <>
       <header
-        id="initialTrigger"
         ref={openTriggerRef}
-        className="z-10 relative flex touch-none justify-between items-center p-global w-full border-b-2 border-[var(--gray)] select-none"
+        className="z-10 relative flex justify-between items-center p-global w-full border-b-2 border-[var(--gray)] select-none"
       >
         {children}
       </header>
