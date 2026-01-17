@@ -5,3 +5,4 @@ export { default as SignIn } from "./SignIn";
 export { default as Post } from "./Post";
 export { default as Navigation } from "./Navigation";
 export { default as HeaderActions } from "./HeaderActions";
+export { default as SmartHeader } from "./SmartHeader";

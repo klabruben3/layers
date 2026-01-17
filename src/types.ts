@@ -5,3 +5,4 @@ export type ContextState<T> = {
     theme: T;
     setTheme: Dispatch<SetStateAction<T>>
 }
+export type NavProp = "open" | "closed";

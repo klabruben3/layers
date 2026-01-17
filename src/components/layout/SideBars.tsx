@@ -1,16 +1,19 @@
 "use client";
 
-import { useMediaQuery } from "@/contexts";
+import { useMediaQuery, useSidebarContext } from "@/contexts";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Navigation } from "../features";
+import { NavProp } from "@/types";
+import { usePointerReveal } from "../ui";
 
 function LeftSideBar() {
   const device = useMediaQuery();
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const sidebarRef = useRef<HTMLElement | null>(null);
-  const [navState, setNavState] = useState<"open" | "closed">("closed");
+  const [navState, setNavState] = useState<NavProp>("closed");
   const [extend, setExtend] = useState(false);
+  const { setWidth } = useSidebarContext();
 
   useEffect(() => {
     if (device !== "mobile") {
@@ -20,67 +23,28 @@ function LeftSideBar() {
     }
   }, [device]);
 
-  function usePointerReveal<T extends HTMLElement>({
-    enabled,
-    ref,
-    onReveal,
-    onClose,
-    boundaryId,
-  }: {
-    enabled: boolean;
-    ref: React.RefObject<T | null>;
-    onReveal: () => void;
-    onClose: () => void;
-    boundaryId: string;
-  }) {
-    useEffect(() => {
-      if (!enabled) return;
-
-      const el = ref.current;
-      if (!el) return;
-
-      const onMove = (e: PointerEvent) => {
-        const hit = document.elementFromPoint(e.clientX, e.clientY);
-        if (hit?.id !== boundaryId) onReveal();
-      };
-
-      const onUp = () => {
-        el.removeEventListener("pointermove", onMove);
-        el.removeEventListener("pointerup", onUp);
-      };
-
-      const onDown = (e: PointerEvent) => {
-        el.setPointerCapture(e.pointerId);
-        el.addEventListener("pointermove", onMove);
-        el.addEventListener("pointerup", onUp);
-      };
-
-      const onClick = (e: MouseEvent) => {
-        if ((e.target as HTMLElement).id !== boundaryId) onClose();
-      };
-
-      el.addEventListener("pointerdown", onDown);
-      window.addEventListener("click", onClick);
-
-      return () => {
-        el.removeEventListener("pointerdown", onDown);
-        window.removeEventListener("click", onClick);
-      };
-    }, [enabled, ref, onReveal, onClose, boundaryId]);
-  }
+  useEffect(() => {
+    if (device != "tablet") {
+      setWidth(0);
+      return;
+    }
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+    setWidth(sidebar.offsetWidth);
+  }, [device, navState, extend]);
 
   usePointerReveal({
     enabled: device === "mobile",
-    ref: triggerRef,
-    boundaryId: "sidebar",
+    open: navState == "open",
+    ref: {reveal: triggerRef, close: sidebarRef},
     onReveal: () => setNavState("open"),
     onClose: () => setNavState("closed"),
   });
 
   usePointerReveal({
+    open: navState == "open",
     enabled: device === "tablet",
-    ref: sidebarRef,
-    boundaryId: "sidebar",
+    ref: {reveal: sidebarRef, close: sidebarRef},
     onReveal: () => setExtend(true),
     onClose: () => setExtend(false),
   });
@@ -89,28 +53,40 @@ function LeftSideBar() {
     <>
       {device == "mobile" && (
         <button
-          id="target"
+          id="nav-trigger"
           ref={triggerRef}
-          className="touch-none absolute left-0 top-0 w-3 h-full bg-[red]/30"
+          className="z-5 touch-none absolute left-0 top-0 w-3 h-full"
         />
       )}
       <AnimatePresence>
-        {navState === "open" && (
-          <motion.aside
-            key="nav"
-            id="sidebar"
-            ref={sidebarRef}
-            initial={{ x: "-100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            className="select-none touch-none h-full bg-background border-r-2 border-[var(--gray)] absolute min-[375px]:static"
-          >
-            <Navigation device={device} extend={extend} />
-          </motion.aside>
+        {navState == "open" && (
+          <>
+            <motion.aside
+              key="nav"
+              id="sidebar"
+              ref={sidebarRef}
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "-100%", opacity: 0 }}
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+              }}
+              className="select-none touch-none h-full bg-background border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10"
+            >
+              <Navigation device={device} extend={extend} />
+            </motion.aside>
+
+            {device == "mobile" && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 backdrop-blur-md z-5"
+              />
+            )}
+          </>
         )}
       </AnimatePresence>
     </>

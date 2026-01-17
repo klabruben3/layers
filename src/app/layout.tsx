@@ -1,4 +1,8 @@
-import { MediaQueryProvider, ThemeProvider } from "@/contexts";
+import {
+  MediaQueryProvider,
+  SidebarWidthProvider,
+  ThemeProvider,
+} from "@/contexts";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header, LeftSideBar, RightSideBar } from "@/components/layout";
@@ -22,16 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body>
-        <script src="http://localhost:8097"></script>
         <MediaQueryProvider>
           <ThemeProvider>
             <div className="flex flex-col h-screen">
-              <Header />
-              <main className="relative flex-1 overflow-hidden flex">
-                <LeftSideBar />
-                {children}
-                <RightSideBar />
-              </main>
+              <SidebarWidthProvider>
+                <Header />
+                <main className="relative flex-1 overflow-hidden flex">
+                  <LeftSideBar />
+                  {children}
+                  <RightSideBar />
+                </main>
+              </SidebarWidthProvider>
             </div>
           </ThemeProvider>
         </MediaQueryProvider>

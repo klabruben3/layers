@@ -14,9 +14,9 @@ export function MediaQueryProvider({
 
   useEffect(() => {
     const tabletQuery = window.matchMedia(
-      "(min-width: 376px) and (max-width: 768px)"
+      "(min-width: 501px) and (max-width: 1000px)"
     );
-    const mobileQuery = window.matchMedia("(max-width: 375px)");
+    const mobileQuery = window.matchMedia("(max-width: 500px)");
 
     const handleQuery = () => {
       if (mobileQuery.matches) {
