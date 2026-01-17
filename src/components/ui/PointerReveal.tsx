@@ -7,12 +7,14 @@ export default function usePointerReveal<T extends HTMLElement>({
   open,
   ref,
   triggerAxis,
+  forceRerender,
   onReveal,
   onClose,
   triggerOffset,
 }: {
   enabled: boolean;
   open: boolean;
+  forceRerender?: string | number;
   triggerOffset: number;
   ref: { reveal: React.RefObject<T | null>; close: React.RefObject<T | null> };
   triggerAxis: "horizontal" | "vertical";
@@ -80,5 +82,5 @@ export default function usePointerReveal<T extends HTMLElement>({
       el.removeEventListener("pointerdown", onDown);
       el.style.touchAction = "";
     };
-  }, [enabled, open, ref, triggerAxis, triggerOffset, onReveal, onClose]);
+  }, [enabled, open, ref, triggerAxis, triggerOffset, onReveal, onClose, forceRerender]);
 }

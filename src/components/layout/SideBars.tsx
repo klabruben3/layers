@@ -48,6 +48,7 @@ function LeftSideBar() {
     enabled: device === "tablet",
     triggerAxis: "horizontal",
     triggerOffset: 50,
+    forceRerender: navState,
     ref: { reveal: sidebarRef, close: sidebarRef },
     onReveal: () => setExtend(true),
     onClose: () => setExtend(false),
