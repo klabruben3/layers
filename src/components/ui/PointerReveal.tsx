@@ -35,20 +35,31 @@ export default function usePointerReveal<T extends HTMLElement>({
       const dy = initialPos.y - e.clientY;
       const dx = initialPos.x - e.clientX;
 
+      if (Math.hypot(dy, dx) < triggerOffset) return;
+
       const xDirection = Math.sign(dx) === -1 ? "right" : "left";
       const yDirection = Math.sign(dy) === -1 ? "down" : "up";
+      const absAngle = Math.abs((Math.atan2(dy, dx) * 180) / Math.PI);
+      const isVertical = absAngle > 70 && absAngle < 110;
+      const isHorizontal = absAngle < 20 || absAngle > 160;
 
-      if (triggerAxis == "vertical" && Math.hypot(dy, dx) > triggerOffset) {
-        if (!open && yDirection == "down") onReveal();
-        else if (open && yDirection == "up") onClose();
-        triggered = true;
-      } else if (
-        triggerAxis == "horizontal" &&
-        Math.hypot(dy, dx) > triggerOffset
-      ) {
-        if (!open && xDirection == "right") onReveal();
-        else if (open && xDirection == "left") onClose();
-        triggered = true;
+      if (triggerAxis == "vertical" && isVertical) {
+        if (!open && yDirection == "down") {
+          triggered = true;
+          onReveal();
+        } else if (open && yDirection == "up") {
+          triggered = true;
+          onClose();
+        }
+      }
+      if (triggerAxis == "horizontal" && isHorizontal) {
+        if (!open && xDirection == "right") {
+          triggered = true;
+          onReveal();
+        } else if (open && xDirection == "left") {
+          triggered = true;
+          onClose();
+        }
       }
     };
 
@@ -82,5 +93,14 @@ export default function usePointerReveal<T extends HTMLElement>({
       el.removeEventListener("pointerdown", onDown);
       el.style.touchAction = "";
     };
-  }, [enabled, open, ref, triggerAxis, triggerOffset, onReveal, onClose, forceRerender]);
+  }, [
+    enabled,
+    open,
+    ref,
+    triggerAxis,
+    triggerOffset,
+    onReveal,
+    onClose,
+    forceRerender,
+  ]);
 }
