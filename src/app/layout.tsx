@@ -8,6 +8,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header, LeftSideBar, RightSideBar } from "@/components/layout";
 
+// for vercel data visualization
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
+
 export const metadata: Metadata = {
   title: "Layers",
   description:
@@ -27,6 +31,8 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body>
+        <SpeedInsights />
+        <Analytics />
         <MediaQueryProvider>
           <ThemeProvider>
             <div className="flex flex-col h-screen">
