@@ -31,20 +31,20 @@ export default function TypeFast({
         if (cancelled) return;
         wrapper.textContent += char;
 
-        const offset = char == "," || char == ";" ? delay * 3 : 0;
+        const offset = char === "," || char === ";" ? delay * 3 : 0;
         await new Promise((res) => setTimeout(res, delay + offset));
       }
 
-      if (setIsTyping) setIsTyping(false);
+      setIsTyping?.(false);
     };
 
     type();
 
     return () => {
       cancelled = true;
-      if (setIsTyping) setIsTyping(true);
+      setIsTyping?.(true);
     };
-  }, [text]);
+  }, [text, delay, setIsTyping]);
 
   return (
     <Element className={className} ref={wrapperRef}>

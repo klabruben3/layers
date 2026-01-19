@@ -15,6 +15,7 @@ function LeftSideBar() {
   const [extend, setExtend] = useState(false);
   const { setWidth } = useSidebarContext();
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (device !== "mobile") {
       setNavState("open");
@@ -22,6 +23,7 @@ function LeftSideBar() {
       setNavState("closed");
     }
   }, [device]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (device != "tablet") {
@@ -31,7 +33,7 @@ function LeftSideBar() {
     const sidebar = sidebarRef.current;
     if (!sidebar) return;
     setWidth(sidebar.offsetWidth);
-  }, [device, navState, extend]);
+  }, [device, navState, extend, setWidth]);
 
   usePointerReveal({
     enabled: device === "mobile",

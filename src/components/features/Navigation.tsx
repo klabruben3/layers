@@ -10,9 +10,8 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "../ui/";
-import { useState } from "react";
 import { motion } from "motion/react";
-import { NavigationTitle, NavLinkProp } from "@/types";
+import { NavLinkProp } from "@/types";
 
 export default function Navigation({
   device,

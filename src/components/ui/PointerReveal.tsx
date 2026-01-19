@@ -25,6 +25,8 @@ export default function usePointerReveal<T extends HTMLElement>({
     if (!enabled) return;
     const el = !open ? ref.reveal.current : ref.close.current;
     if (!el) return;
+
+    // eslint-disable-next-line react-hooks/immutability
     el.style.touchAction = "none";
 
     let triggered = false;

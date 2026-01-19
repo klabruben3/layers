@@ -1,7 +1,10 @@
 import { Layers2 } from "lucide-react";
 import { Roboto_Slab } from "next/font/google";
 
-const RobotoSlab = Roboto_Slab();
+const RobotoSlab = Roboto_Slab({
+  variable: "--font-roboto-slab",
+  subsets: ["latin"],
+});
 
 export function LogoImage() {
   return (
