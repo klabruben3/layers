@@ -35,7 +35,7 @@ export default function Navigation({
       <div className="p-global">
         {navLinks.map((navLink, i) => (
           <Button
-            onPointerDown={() => setNavTitle(navLink.title)}
+            OnPointerUp={() => setNavTitle(navLink.title)}
             key={navLink.title}
             className={`${
               navTitle == navLink.title

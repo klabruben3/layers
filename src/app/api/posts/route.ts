@@ -7,22 +7,32 @@ type Post = {
   body: string;
 };
 
-async function getAllPosts(): Promise<Post[]> {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch posts");
-  }
-
-  return res.json();
+interface PostProp {
+  author: string;
+  status: "Verified" | "Community Submitted";
+  releaseDate: string;
+  title: string;
+  description: string;
+  frameWork: "ReactJs" | "NextJs" | "Vanilla" | "Angular" | "Vue";
+  tags?: string[];
+  preview:{image?: string, video?: string};
+  code: string;
+  usage: string;
+  likes: number;
+  comments: number;
 }
 
-export async function GET(request: Request) {
-  const posts = await getAllPosts();
+const posts: Post[] = Array.from({ length: 100 }, (_, i) => ({
+  userId: i,
+  id: parseFloat((Math.random() * 100).toFixed(2)),
+  title: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
+  body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque vel molestiae ratione libero? Dolores ipsa aspernatur explicabo nesciunt voluptate ab provident earum, eaque modi sapiente optio, tempore, nobis eum quaerat!",
+}));
 
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const page = Number(searchParams.get("page")) || 1;
+  const page = Number(searchParams.get("page")) | 1;
   const limit = Number(searchParams.get("limit")) || 10;
 
   const startIndex = (page - 1) * limit;
