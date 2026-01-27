@@ -24,7 +24,7 @@ export default function Search({ className }: { className?: string }) {
     >
       <button
         className="flex gap-[2px] items-center cursor-pointer group"
-        onPointerUp={() => setSearchState(!searchState)}
+        onClick={() => setSearchState(!searchState)}
       >
         <SearchIcon width={16} className="text-white" />
         <ChevronDown
@@ -58,7 +58,7 @@ export default function Search({ className }: { className?: string }) {
               className={`px-2 flex gap-[5px] capitalize cursor-pointer hover:bg-white/10 transition-[background-color,color] duration-200 ${
                 search == searchQuery ? "text-primary" : "text-white"
               }`}
-              onPointerUp={() => {
+              onClick={() => {
                 setSearchQuery(search);
                 setSearchState(!searchState);
               }}
