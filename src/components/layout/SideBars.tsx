@@ -9,7 +9,7 @@ import { usePointerReveal } from "../ui";
 
 function LeftSideBar() {
   const device = useMediaQuery();
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   const sidebarRef = useRef<HTMLElement | null>(null);
   const [navState, setNavState] = useState<NavProp>("closed");
   const [extend, setExtend] = useState(false);
@@ -59,7 +59,7 @@ function LeftSideBar() {
   return (
     <>
       {device == "mobile" && (
-        <button
+        <div
           ref={triggerRef}
           className="z-5 absolute left-0 top-0 w-3 h-full"
         />

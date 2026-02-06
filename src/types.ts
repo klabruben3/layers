@@ -1,5 +1,20 @@
 import { LucideIcon } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { ComponentType, Dispatch, SetStateAction, SVGProps } from "react";
+
+export type ProviderName =
+  | "google"
+  | "github"
+  | "gitlab"
+  | "discord"
+  | "microsoft";
+export type ProviderProp = {
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  provider: Provider;
+  name: ProviderName;
+};
+export type ProviderInfo = {
+  [key in ProviderName]: ProviderProp;
+};
 
 export type Children = { children: React.ReactNode };
 export type ContextState<T> = {

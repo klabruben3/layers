@@ -2,11 +2,14 @@
 
 import { useLoginContext } from "@/contexts";
 import { AnimatePresence, motion } from "motion/react";
-import { GitHub, Google } from "../icons";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { LoginButton } from "../ui";
+import { providers } from "@/data/providers";
+import { useState } from "react";
 
 export default function LoginCard() {
   const { showLogin, setShowLogin } = useLoginContext();
+  const [showMore, setShowMore] = useState(false);
   return (
     <AnimatePresence>
       {showLogin && (
@@ -27,7 +30,7 @@ export default function LoginCard() {
               transform: { type: "spring", stiffness: 300, damping: 20 },
               opacity: { duration: 0.2 },
             }}
-            className="w-100 z-1 border-2 border-[var(--gray)] p-10 rounded-lg bg-foreground/70"
+            className="w-90 z-1 border-2 border-[var(--gray)] p-7 rounded-lg bg-foreground/70"
           >
             <div className="flex flex-col items-center mb-3 gap-5">
               <span className="text-2xl">Sign in</span>
@@ -35,23 +38,34 @@ export default function LoginCard() {
                 Publish and share UI components with the community.
               </p>
             </div>
-            <div className="flex flex-col gap-2 font-bold mb-3">
-              <button className="cursor-pointer w-full flex items-center gap-2 rounded-lg p-3 border">
-                <GitHub />
-                <span>Continue with GitHub</span>
-              </button>
-              <button className="cursor-pointer w-full flex gap-2 rounded-lg p-3 border bg-white text-black">
-                <Google />
-                <span>Continue with Google</span>
-              </button>
+            <div className="flex flex-col gap-2 mb-3">
+              <LoginButton provider={providers.github} className="text-white" />
+              <LoginButton
+                provider={providers.google}
+                className="bg-white text-black"
+              />
             </div>
-            <button className="flex items-center gap-2 uppercase group cursor-pointer text-white/40 text-sm mx-auto mb-10">
+            <button
+              onClick={() => setShowMore(!showMore)}
+              className="flex items-center gap-2 uppercase group cursor-pointer text-white/40 text-sm mx-auto mb-3"
+            >
               <span className="group-hover:text-white transition-[color] duration-100 ease-out">
-                More options
+                {showMore ? "Less" : "More"} options
               </span>
-              <ChevronDown className="group-active:text-white group-active:translate-y-1 transition-transform duration-100 ease-out" />
+              {showMore ? (
+                <ChevronUp className="group-active:text-white group-active:translate-y-1 transition-transform duration-100 ease-out" />
+              ) : (
+                <ChevronDown className="group-active:text-white group-active:translate-y-1 transition-transform duration-100 ease-out" />
+              )}
             </button>
-            <p className="text-center text-white/40 text-sm">
+            {showMore && (
+              <div className="flex flex-col gap-2">
+                <LoginButton provider={providers.discord} />
+                <LoginButton provider={providers.gitlab} />
+                <LoginButton provider={providers.microsoft} />
+              </div>
+            )}
+            <p className="text-center text-white/40 text-sm mt-10">
               By continuing, you agree to our{" "}
               <a className="hover:text-primary text-primary/75 active:text-white">
                 Terms of Service
