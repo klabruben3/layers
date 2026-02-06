@@ -5,11 +5,7 @@ interface ButtonProp extends Children {
   onClick?: () => void;
 }
 
-export default function Button({
-  children,
-  className,
-  onClick,
-}: ButtonProp) {
+export default function Button({ children, className, onClick }: ButtonProp) {
   return (
     <button
       onClick={onClick}

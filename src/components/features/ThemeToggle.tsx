@@ -22,9 +22,11 @@ export default function ThemeToggle() {
         initial={{ x: theme == "dark" ? -3 : 27 }}
         animate={{ x: theme === "dark" ? 27 : -3 }}
         transition={{
-          type: "spring", stiffness: 500, damping: 30
+          type: "spring",
+          stiffness: 500,
+          damping: 30,
         }}
-        className="absolute bg-background text-white outline outline-[var(--primary-color)] group-hover:outline-white group-hover:text-[var(--primary-color)] p-[2px] w-fit rounded-full origin-right"
+        className="absolute bg-background/30 text-white outline outline-[var(--primary-color)] group-hover:outline-white group-hover:text-[var(--primary-color)] p-[2px] w-fit rounded-full origin-right"
       >
         {theme == "light" ? <Moon /> : <Sun />}
       </motion.div>

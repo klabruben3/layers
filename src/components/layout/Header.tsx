@@ -1,10 +1,14 @@
-import { Logo, HeaderActions, SmartHeader } from "../features";
+import { LoginContextProvider } from "@/contexts";
+import { Logo, HeaderActions, SmartHeader, LoginCard } from "../features";
 
 export default function Header() {
   return (
-    <SmartHeader>
-      <Logo />
-      <HeaderActions />
-    </SmartHeader>
+    <LoginContextProvider>
+      <SmartHeader>
+        <Logo />
+        <HeaderActions />
+      </SmartHeader>
+      <LoginCard />
+    </LoginContextProvider>
   );
 }

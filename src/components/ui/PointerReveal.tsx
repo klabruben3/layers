@@ -72,6 +72,10 @@ export default function usePointerReveal<T extends HTMLElement>({
     };
 
     const onDown = (e: PointerEvent) => {
+      const target = e.target as HTMLElement;
+
+      if (target.closest("button")) return;
+
       el.setPointerCapture(e.pointerId);
       el.addEventListener("pointermove", onMove);
       el.addEventListener("pointerup", onUp);

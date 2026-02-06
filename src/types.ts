@@ -19,6 +19,13 @@ export interface NavLinkProp {
   icon: LucideIcon;
 }
 
+export type Provider =
+  | "github"
+  | "google"
+  | "discord"
+  | "gitlab"
+  | "microsoft-entra-id";
+
 type PostStatus = "verified" | "community";
 
 type Framework = "react" | "next" | "vanilla" | "angular" | "vue";
@@ -30,7 +37,10 @@ interface PostAuthor {
   profileLink: string;
   reputationScore: number;
 }
-interface Code {value: string, highlighted: string}
+interface Code {
+  value: string;
+  highlighted: string;
+}
 
 interface PostContent {
   preview: { type: "image"; src: string } | { type: "video"; src: string };

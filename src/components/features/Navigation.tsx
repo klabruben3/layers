@@ -43,7 +43,7 @@ export default function Navigation({
               navTitle == navLink.title
                 ? "text-primary bg-[var(--dark-gray)]"
                 : "text-white"
-            } flex gap-2 w-full`}
+            } flex gap-2 w-full mb-1`}
           >
             <navLink.icon width={24} />
             {(device == "mobile" || device == "desktop" || extend) && (

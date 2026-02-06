@@ -3,15 +3,15 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface TypeProp {
-  className: string;
+  className?: string;
   setIsTyping?: Dispatch<SetStateAction<boolean>>;
   delay?: number;
   elementType?: React.ElementType;
-  text: string;
+  text?: string;
 }
 
 export default function TypeFast({
-  text,
+  text = "Isn't this cool, tho🤪",
   className,
   setIsTyping,
   delay = 200,
@@ -46,9 +46,5 @@ export default function TypeFast({
     };
   }, [text, delay, setIsTyping]);
 
-  return (
-    <Element className={className} ref={wrapperRef}>
-      {text}
-    </Element>
-  );
+  return <Element className={className} ref={wrapperRef} />;
 }

@@ -77,7 +77,7 @@ function LeftSideBar() {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
-              className="select-none h-full bg-background border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10"
+              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10"
             >
               <Navigation device={device} extend={extend} />
             </motion.aside>
@@ -103,7 +103,7 @@ function RightSideBar() {
   return (
     <>
       {device == "desktop" && (
-        <aside className="w-50 h-full bg-background border-l-2 border-[var(--gray)]"></aside>
+        <aside className="w-50 h-full bg-background/30 border-l-2 border-[var(--gray)]"></aside>
       )}
     </>
   );
