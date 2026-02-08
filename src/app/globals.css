@@ -52,6 +52,11 @@ a {
   cursor: pointer;
   text-decoration: underline;
 }
+.xy-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .card,
 header,

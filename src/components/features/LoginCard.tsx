@@ -58,13 +58,21 @@ export default function LoginCard() {
                 <ChevronDown className="group-active:text-white group-active:translate-y-1 transition-transform duration-100 ease-out" />
               )}
             </button>
-            {showMore && (
-              <div className="flex flex-col gap-2">
-                <LoginButton provider={providers.discord} />
-                <LoginButton provider={providers.gitlab} />
-                <LoginButton provider={providers.microsoft} />
-              </div>
-            )}
+            <AnimatePresence>
+              {showMore && (
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-2 overflow-hidden"
+                >
+                  <LoginButton provider={providers.discord} />
+                  <LoginButton provider={providers.gitlab} />
+                  <LoginButton provider={providers.microsoft} />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <p className="text-center text-white/40 text-sm mt-10">
               By continuing, you agree to our{" "}
               <a className="hover:text-primary text-primary/75 active:text-white">

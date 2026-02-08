@@ -13,7 +13,7 @@ function LeftSideBar() {
   const sidebarRef = useRef<HTMLElement | null>(null);
   const [navState, setNavState] = useState<NavProp>("closed");
   const [extend, setExtend] = useState(false);
-  const { setWidth } = useSidebarContext();
+  const { width, setWidth } = useSidebarContext();
 
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
@@ -26,14 +26,22 @@ function LeftSideBar() {
   /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
-    if (device != "tablet") {
+    if (device !== "tablet") {
       setWidth(0);
       return;
     }
-    const sidebar = sidebarRef.current;
-    if (!sidebar) return;
-    setWidth(sidebar.offsetWidth);
-  }, [device, navState, extend, setWidth]);
+
+    const el = sidebarRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setWidth(entry.contentRect.width);
+    });
+
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [device, setWidth]);
 
   usePointerReveal({
     enabled: device === "mobile",
@@ -72,6 +80,13 @@ function LeftSideBar() {
               ref={sidebarRef}
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
+              onAnimationComplete={() => {
+                if (sidebarRef.current) {
+                  if (device == "tablet")
+                    setWidth(sidebarRef.current.offsetWidth);
+                  else setWidth(0);
+                }
+              }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{
                 x: { type: "spring", stiffness: 300, damping: 30 },

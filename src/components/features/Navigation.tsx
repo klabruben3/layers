@@ -10,7 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "../ui/";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { NavLinkProp } from "@/types";
 
 export default function Navigation({
@@ -33,7 +33,7 @@ export default function Navigation({
   return (
     <>
       <div className="p-global">
-        {navLinks.map((navLink, i) => (
+        {navLinks.map((navLink) => (
           <Button
             onClick={() => {
               setNavTitle(navLink.title);
@@ -46,18 +46,21 @@ export default function Navigation({
             } flex gap-2 w-full mb-1`}
           >
             <navLink.icon width={24} />
-            {(device == "mobile" || device == "desktop" || extend) && (
-              <div className="overflow-hidden">
-                <motion.span
-                  initial={{ x: "-100%", opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.2, delay: i * 0.1 }}
-                  className="block"
+            <AnimatePresence>
+              {(device == "mobile" || device == "desktop" || extend) && (
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "auto" }}
+                  exit={{ width: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
                 >
-                  {navLink.title}
-                </motion.span>
-              </div>
-            )}
+                  <span className="block whitespace-nowrap">
+                    {navLink.title}
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </Button>
         ))}
       </div>
