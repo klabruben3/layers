@@ -1,5 +1,5 @@
 import { LoginContextProvider } from "@/contexts";
-import { HeaderActions, SmartHeader, LoginCard } from "../features";
+import { HeaderActions, SmartHeader } from "../features";
 import { Logo } from "../ui";
 
 export default function Header() {
