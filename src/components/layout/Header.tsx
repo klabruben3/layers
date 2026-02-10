@@ -1,5 +1,6 @@
 import { LoginContextProvider } from "@/contexts";
-import { Logo, HeaderActions, SmartHeader, LoginCard } from "../features";
+import { HeaderActions, SmartHeader, LoginCard } from "../features";
+import { Logo } from "../ui";
 
 export default function Header() {
   return (
@@ -8,7 +9,7 @@ export default function Header() {
         <Logo />
         <HeaderActions />
       </SmartHeader>
-      <LoginCard />
+      {/* <LoginCard /> */}
     </LoginContextProvider>
   );
 }

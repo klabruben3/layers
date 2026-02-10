@@ -1,4 +1,4 @@
-import { LogoImage } from "@/components/features";
+import { LogoImage } from "@/components/ui";
 
 export default function Loading() {
   return (

@@ -4,8 +4,8 @@ import { Children } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import { usePointerReveal } from "../ui";
 import { AnimatePresence, motion } from "motion/react";
-import Search from "./Search";
-import Post from "./Post";
+import { Search } from "../ui";
+import { Post } from "../ui";
 
 export default function SmartHeader({ children }: Children) {
   const device = useMediaQuery();

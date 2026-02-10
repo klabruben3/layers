@@ -1,11 +1,6 @@
 import { IlayersButton } from "@/components/ui";
-import { Roboto_Slab, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const RobotoSlab = Roboto_Slab({
-  variable: "--font-roboto-slab",
-  subsets: ["latin"],
-  preload: false,
-});
 const InterFont = Inter({
   variable: "--font-inter",
   subsets: ["latin"],

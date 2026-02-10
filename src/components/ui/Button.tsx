@@ -1,3 +1,4 @@
+"use client";
 import { Children } from "@/types";
 
 interface ButtonProp extends Children {

@@ -1,5 +1,5 @@
 "use client";
-import { Post, Search, ThemeToggle } from "@/components/features";
+import { Post, Search, ThemeToggle } from "../ui";
 import { useLoginContext, useMediaQuery } from "@/contexts";
 
 export default function HeaderActions() {
