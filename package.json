@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -p 3001",
+    "lint": "eslint",
+    "console": "echo Hello world!"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
