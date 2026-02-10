@@ -1,3 +1,4 @@
+"use client";
 export default function Google() {
   return (
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">

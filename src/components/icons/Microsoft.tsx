@@ -1,3 +1,4 @@
+"use client";
 export default function Microsoft(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
