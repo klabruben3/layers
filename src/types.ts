@@ -46,12 +46,17 @@ type PostStatus = "verified" | "community";
 type Framework = "react" | "next" | "vanilla" | "angular" | "vue";
 
 interface PostAuthor {
-  userID: string;
+  userId: string;
   name: string;
   image: string;
   profileLink: string;
   reputationScore: number;
 }
+
+export interface UserParamProp {
+  params: { id: string };
+}
+
 interface Code {
   value: string;
   highlighted: string;
