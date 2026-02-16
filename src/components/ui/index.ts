@@ -6,3 +6,5 @@ export { default as Logo, LogoImage, Layers } from "./Logo";
 export { default as Search } from "./Search";
 export { default as ThemeToggle } from "./ThemeToggle";
 export { default as Post } from "./Post";
+export { default as LogOut } from "./LogOut";
+export { default as LogIn } from "./LogIn";

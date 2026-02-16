@@ -31,19 +31,20 @@ export default function Navigation({
   const { navTitle, setNavTitle } = useNavContext();
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <div className="p-global">
-        {navLinks.map((navLink) => (
+        {navLinks.map((navLink, i) => (
           <Button
             onClick={() => {
               setNavTitle(navLink.title);
             }}
+            title={navLink.title}
             key={navLink.title}
             className={`${
               navTitle == navLink.title
                 ? "text-primary bg-[var(--dark-gray)]"
                 : "text-white"
-            } flex gap-2 w-full mb-1`}
+            } flex gap-2 w-full ${i >= navLinks.length -1 ? null : "mb-1"}`}
           >
             <navLink.icon width={24} />
             <AnimatePresence>
@@ -65,10 +66,11 @@ export default function Navigation({
         ))}
       </div>
       <div
-        className={`h-[1px] bg-[var(--gray)] ${
+        className={`h-[1px] bg-[var(--gray)] w-[80%] ${
           device == "tablet" ? "mx-2" : "mx-5"
         }`}
       />
-    </>
+      <button className="w-[45px] h-[45px] border-2 rounded-full cursor-pointer mt-auto"/>
+    </div>
   );
 }

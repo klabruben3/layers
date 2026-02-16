@@ -1,7 +1,15 @@
 import { UserProfile } from "@/components/layout";
-import { UserParamProp } from "@/types";
-export default async function Page({ params }: UserParamProp) {
-  console.log(params.id);
+import { auth } from "@/lib/auth/auth";
 
-  return <UserProfile userId={params.id} />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const session = await auth();
+  const { id } = await params;
+
+  const isOwner = session?.user?.id === id ? true : false;
+
+  return <UserProfile userId={id} isOwner={isOwner} />;
 }

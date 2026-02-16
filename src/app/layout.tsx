@@ -11,6 +11,7 @@ import { Header, LeftSideBar, RightSideBar } from "@/components/layout";
 // for vercel data visualization
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Layers",
@@ -33,22 +34,24 @@ export default function RootLayout({
       <body>
         <SpeedInsights />
         <Analytics />
-        <MediaQueryProvider>
-          <ThemeProvider>
-            <div className="flex flex-col h-screen">
-              <SidebarWidthProvider>
-                <Header />
-                <main className="relative flex-1 overflow-hidden flex">
-                  <NavigationContextProvider>
-                    <LeftSideBar />
-                    {children}
-                  </NavigationContextProvider>
-                  <RightSideBar />
-                </main>
-              </SidebarWidthProvider>
-            </div>
-          </ThemeProvider>
-        </MediaQueryProvider>
+        <SessionProvider>
+          <MediaQueryProvider>
+            <ThemeProvider>
+              <div className="flex flex-col h-screen">
+                <SidebarWidthProvider>
+                  <Header />
+                  <main className="relative flex-1 overflow-hidden flex">
+                    <NavigationContextProvider>
+                      <LeftSideBar />
+                      {children}
+                    </NavigationContextProvider>
+                    <RightSideBar />
+                  </main>
+                </SidebarWidthProvider>
+              </div>
+            </ThemeProvider>
+          </MediaQueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -53,10 +53,6 @@ interface PostAuthor {
   reputationScore: number;
 }
 
-export interface UserParamProp {
-  params: { id: string };
-}
-
 interface Code {
   value: string;
   highlighted: string;

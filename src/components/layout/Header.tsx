@@ -1,13 +1,11 @@
-import { HeaderActions, LoginCard, SmartHeader } from "../features";
+import { HeaderActions, SmartHeader } from "../features";
 import { Logo } from "../ui";
 
-export default function Header() {
+export default async function Header() {
   return (
-    <>
-      <SmartHeader>
-        <Logo />
-        <HeaderActions />
-      </SmartHeader>
-    </>
+    <SmartHeader>
+      <Logo />
+      <HeaderActions />
+    </SmartHeader>
   );
 }

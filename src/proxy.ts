@@ -6,10 +6,8 @@ export default async function proxy(req: NextRequest) {
   const session = await auth();
 
   if (!session) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    console.log("We have a guest", req.nextUrl)
   }
-  const id = session.user?.id;
-  if (!id) throw new Error("user does not have an id");
 
   return NextResponse.next();
 }
