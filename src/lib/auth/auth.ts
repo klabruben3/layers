@@ -14,6 +14,14 @@ export const authOptions = {
   adapter: PrismaAdapter(prisma),
 
   providers: [GitHub, Google, Discord, Gitlab, Microsoft],
+  callbacks: {
+    async session({ session, user }: {[key: string]: any}) {
+      if (session.user) {
+        session.user.id = user.id
+      }
+      return session
+    }
+  }
 };
 
 export const { signIn, signOut, auth, handlers } = NextAuth(authOptions);

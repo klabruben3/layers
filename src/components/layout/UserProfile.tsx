@@ -7,6 +7,6 @@ export default async function UserProfile({
   userId: string;
   isOwner: boolean;
 }) {
-  // const user = await prisma.user.findUnique({where: {id: userId}})
+  console.log("isOwner:", isOwner, "userId:", userId)
   return <div>Exe, {userId}</div>;
 }

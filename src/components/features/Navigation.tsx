@@ -12,6 +12,8 @@ import {
 import { Button } from "../ui/";
 import { AnimatePresence, motion } from "motion/react";
 import { NavLinkProp } from "@/types";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Navigation({
   device,
@@ -29,48 +31,43 @@ export default function Navigation({
     { title: "My Components", icon: Code2 },
   ];
   const { navTitle, setNavTitle } = useNavContext();
+  const {data: session} = useSession()
+
+  console.log(session?.user?.id)
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="p-global">
-        {navLinks.map((navLink, i) => (
-          <Button
-            onClick={() => {
-              setNavTitle(navLink.title);
-            }}
-            title={navLink.title}
-            key={navLink.title}
-            className={`${
-              navTitle == navLink.title
-                ? "text-primary bg-[var(--dark-gray)]"
-                : "text-white"
-            } flex gap-2 w-full ${i >= navLinks.length -1 ? null : "mb-1"}`}
-          >
-            <navLink.icon width={24} />
-            <AnimatePresence>
-              {(device == "mobile" || device == "desktop" || extend) && (
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "auto" }}
-                  exit={{ width: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="overflow-hidden"
-                >
-                  <span className="block whitespace-nowrap">
-                    {navLink.title}
-                  </span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Button>
-        ))}
-      </div>
-      <div
-        className={`h-[1px] bg-[var(--gray)] w-[80%] ${
-          device == "tablet" ? "mx-2" : "mx-5"
-        }`}
-      />
-      <button className="w-[45px] h-[45px] border-2 rounded-full cursor-pointer mt-auto"/>
-    </div>
+    <>
+      {navLinks.map((navLink, i) => (
+        <Button
+          onClick={() => {
+            setNavTitle(navLink.title);
+          }}
+          title={navLink.title}
+          key={navLink.title}
+          className={`${
+            navTitle == navLink.title
+              ? "text-primary bg-[var(--dark-gray)]"
+              : "text-white"
+          } flex gap-2 w-full ${i >= navLinks.length - 1 ? "mb-1" : "mb-1"}`}
+        >
+          <navLink.icon width={24} />
+          <AnimatePresence>
+            {(device == "mobile" || device == "desktop" || extend) && (
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "auto" }}
+                exit={{ width: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <span className="block whitespace-nowrap">{navLink.title}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Button>
+      ))}
+      <div className="h-[1px] bg-[var(--gray)] mx-1" />
+      {session && <button onClick={() => redirect(`/u/${session.user?.id}`)} className="w-[45px] h-[45px] border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"><img src={session.user?.image!} /></button>}
+    </>
   );
 }
