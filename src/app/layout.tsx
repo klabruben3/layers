@@ -1,4 +1,5 @@
 import {
+  LoginContextProvider,
   MediaQueryProvider,
   NavigationContextProvider,
   SidebarWidthProvider,
@@ -12,6 +13,7 @@ import { Header, LeftSideBar, RightSideBar } from "@/components/layout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { SessionProvider } from "next-auth/react";
+import { LoginCard } from "@/components/features";
 
 export const metadata: Metadata = {
   title: "Layers",
@@ -39,11 +41,14 @@ export default function RootLayout({
             <ThemeProvider>
               <div className="flex flex-col h-screen">
                 <SidebarWidthProvider>
-                  <Header />
-                  <main className="relative flex-1 overflow-hidden flex">
+                  <LoginContextProvider>
+                    <Header />
+                    <LoginCard />
+                  </LoginContextProvider>
+                  <main className="relative overflow-hidden flex h-screen">
                     <NavigationContextProvider>
                       <LeftSideBar />
-                      {children}
+                      <div className="relative flex-1 h-full">{children}</div>
                     </NavigationContextProvider>
                     <RightSideBar />
                   </main>

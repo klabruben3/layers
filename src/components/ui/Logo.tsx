@@ -2,6 +2,7 @@
 import { Layers2 } from "lucide-react";
 import { SweepText } from "../effects";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 
 function LogoImage() {
   return (
@@ -30,6 +31,7 @@ export default function Logo() {
     <button
       onMouseEnter={() => setTriggerState("active")}
       onMouseLeave={() => setTriggerState("inactive")}
+      onClick={() =>redirect("/")}
       className="group flex items-center gap-[10] cursor-pointer"
     >
       <LogoImage />

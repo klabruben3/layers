@@ -18,8 +18,8 @@ export type ProviderInfo = {
 
 export type Children = { children: React.ReactNode };
 export type ContextState<T> = {
-  theme: T;
-  setTheme: Dispatch<SetStateAction<T>>;
+  value: T;
+  setValue: Dispatch<SetStateAction<T>>;
 };
 export type NavProp = "open" | "closed";
 export type NavigationTitle =

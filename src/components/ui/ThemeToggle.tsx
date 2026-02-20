@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useThemeContext();
+  const { value: theme, setValue: setTheme } = useThemeContext();
 
   useEffect(() => {
     const html = document.querySelector("html");

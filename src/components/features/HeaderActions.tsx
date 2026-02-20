@@ -1,10 +1,8 @@
 "use client";
-import { useSession } from "next-auth/react";
-import { Post, Search, ThemeToggle, LogIn, LogOut } from "../ui";
+import { Post, Search, ThemeToggle, AuthenticateButton } from "../ui";
 import { useMediaQuery } from "@/contexts";
 
 export default function HeaderActions() {
-  const { data: session } = useSession();
   const device = useMediaQuery();
 
   return (
@@ -17,7 +15,7 @@ export default function HeaderActions() {
             <ThemeToggle />
           </>
         )}
-        {session ? <LogOut /> : <LogIn />}
+        <AuthenticateButton />
       </div>
     </>
   );

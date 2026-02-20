@@ -33,8 +33,6 @@ export default function Navigation({
   const { navTitle, setNavTitle } = useNavContext();
   const {data: session} = useSession()
 
-  console.log(session?.user?.id)
-
   return (
     <>
       {navLinks.map((navLink, i) => (
