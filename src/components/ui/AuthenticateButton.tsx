@@ -2,6 +2,7 @@
 
 import { useLoginContext } from "@/contexts";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function LogIn() {
   const { setValue: setShowLogin } = useLoginContext();
@@ -20,10 +21,12 @@ function LogIn() {
 
 function LogOut() {
   const { setValue: setShowLogin } = useLoginContext();
+  const router = useRouter()
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
-    setShowLogin(false);
+    router.push("/")
+    setShowLogin(true);
   };
 
   return (

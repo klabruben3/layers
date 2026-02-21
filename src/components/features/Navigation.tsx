@@ -13,7 +13,7 @@ import { Button } from "../ui/";
 import { AnimatePresence, motion } from "motion/react";
 import { NavLinkProp } from "@/types";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Navigation({
   device,
@@ -31,7 +31,8 @@ export default function Navigation({
     { title: "My Components", icon: Code2 },
   ];
   const { navTitle, setNavTitle } = useNavContext();
-  const {data: session} = useSession()
+  const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -65,7 +66,14 @@ export default function Navigation({
         </Button>
       ))}
       <div className="h-[1px] bg-[var(--gray)] mx-1" />
-      {session && <button onClick={() => redirect(`/u/${session.user?.id}`)} className="w-[45px] h-[45px] border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"><img src={session.user?.image!} /></button>}
+      {session && (
+        <button
+          onClick={() => router.push(`/u/${session.user?.id}/dashboard`)}
+          className="w-[45px] h-[45px] border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"
+        >
+          <img src={session.user?.image!} />
+        </button>
+      )}
     </>
   );
 }

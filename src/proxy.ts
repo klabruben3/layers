@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "./lib/auth/auth";
 
 export default async function proxy(req: NextRequest) {
-  const session = await auth();
+  const {pathname} = req.nextUrl
+  const id = pathname.split("/")[2]
 
-  if (!session) {
-    console.log("We have a guest", req.nextUrl)
-  }
+  console.log(id)
 
   return NextResponse.next();
 }

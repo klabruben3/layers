@@ -4,7 +4,7 @@ export default async function UserProfile({
   userId,
   isOwner,
 }: {
-  userId: string;
+  userId: string | undefined;
   isOwner: boolean;
 }) {
   console.log("isOwner:", isOwner, "userId:", userId)
