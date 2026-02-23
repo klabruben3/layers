@@ -1,19 +1,12 @@
 "use client";
 
 import { Device, useNavContext } from "@/contexts";
-import {
-  Bookmark,
-  Code2,
-  Compass,
-  Home,
-  TrendingUp,
-  Users,
-} from "lucide-react";
 import { Button } from "../ui/";
 import { AnimatePresence, motion } from "motion/react";
-import { NavLinkProp } from "@/types";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { mainNav, profileNav } from "@/data/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Navigation({
   device,
@@ -22,32 +15,45 @@ export default function Navigation({
   device: Device | null;
   extend: boolean;
 }) {
-  const navLinks: NavLinkProp[] = [
-    { title: "Home", icon: Home },
-    { title: "Explore", icon: Compass },
-    { title: "Trending", icon: TrendingUp },
-    { title: "Saved", icon: Bookmark },
-    { title: "Following", icon: Users },
-    { title: "My Components", icon: Code2 },
-  ];
   const { navTitle, setNavTitle } = useNavContext();
-  const { data: session } = useSession();
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  // Security
+  const { data: session, status } = useSession();
+  const { id } = useParams<{ id: string }>();
+
+  const isOwner = session?.user.id === id;
+
+  if (status === "loading") return <div className="h-[45px] w-[45px] outline-2 animate-spin"/>;
+
+  const navLinks = pathname.startsWith("/u")
+    ? profileNav.filter((link) => isOwner || link.type !== "private")
+    : mainNav;
 
   return (
     <>
-      {navLinks.map((navLink, i) => (
+      {navLinks.map((navLink) => (
         <Button
           onClick={() => {
-            setNavTitle(navLink.title);
+            if (navLink.href) {
+              router.push(navLink.href(id));
+            } else {
+              setNavTitle(navLink.title);
+            }
           }}
           title={navLink.title}
           key={navLink.title}
           className={`${
-            navTitle == navLink.title
+            (
+              navLink.href
+                ? pathname == navLink.href(id)
+                : navTitle === navLink.title
+            )
               ? "text-primary bg-[var(--dark-gray)]"
               : "text-white"
-          } flex gap-2 w-full ${i >= navLinks.length - 1 ? "mb-1" : "mb-1"}`}
+          } flex gap-2 w-full mb-1`}
         >
           <navLink.icon width={24} />
           <AnimatePresence>

@@ -22,16 +22,12 @@ export type ContextState<T> = {
   setValue: Dispatch<SetStateAction<T>>;
 };
 export type NavProp = "open" | "closed";
-export type NavigationTitle =
-  | "Home"
-  | "Explore"
-  | "Trending"
-  | "Saved"
-  | "Following"
-  | "My Components";
+
 export interface NavLinkProp {
-  title: NavigationTitle;
+  title: string;
   icon: LucideIcon;
+  href?: (id:string) => string
+  type?: "private" | "public"
 }
 
 export type Provider =
