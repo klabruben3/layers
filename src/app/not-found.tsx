@@ -1,16 +1,9 @@
 import { IlayersButton } from "@/components/ui";
-import { Inter } from "next/font/google";
-
-const InterFont = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  preload: false,
-});
 
 export default function NotFound() {
   return (
     <main
-      className={`${InterFont.className} h-screen w-full xy-center flex-col gap-4 text-center`}
+      className="h-screen w-full xy-center flex-col gap-4 text-center"
     >
       <span className="text-6xl font-bold text-white/25">404</span>
       <h1 className="text-2xl font-bold">You stepped off the rails.</h1>
