@@ -1,12 +1,12 @@
 "use client";
 import { Children } from "@/types";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import {
   createContext,
   Dispatch,
   SetStateAction,
   useContext,
-  useEffect,
+  // useEffect,
   useState,
 } from "react";
 
@@ -19,15 +19,15 @@ const NavigationContext = createContext<NavigationProp | undefined>(undefined);
 
 function NavigationContextProvider({ children }: Children) {
   const [navTitle, setNavTitle] = useState<string>("Home");
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
-  useEffect(() => {
-    if (pathname.startsWith("/u")) {
-      setNavTitle("Dashboard");
-    } else {
-      setNavTitle("Home");
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (pathname.startsWith("/u")) {
+  //     setNavTitle("Dashboard");
+  //   } else {
+  //     setNavTitle("Home");
+  //   }
+  // }, [pathname]);
 
   return (
     <NavigationContext.Provider

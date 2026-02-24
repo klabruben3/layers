@@ -46,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  onboarded     Boolean   @default(false)
 
   @@map("users")
 }

@@ -26,11 +26,14 @@ export default function Navigation({
 
   const isOwner = session?.user.id === id;
 
-  if (status === "loading") return <div className="h-[45px] w-[45px] outline-2 animate-spin"/>;
+  if (status === "loading")
+    return <div className="h-[45px] w-[45px] outline-2 animate-spin" />;
 
   const navLinks = pathname.startsWith("/u")
     ? profileNav.filter((link) => isOwner || link.type !== "private")
     : mainNav;
+
+  const isUserProfile = pathname.startsWith("/u");
 
   return (
     <>
@@ -72,7 +75,7 @@ export default function Navigation({
         </Button>
       ))}
       <div className="h-[1px] bg-[var(--gray)] mx-1" />
-      {session && (
+      {session && !isUserProfile && (
         <button
           onClick={() => router.push(`/u/${session.user?.id}/dashboard`)}
           className="w-[45px] h-[45px] border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"

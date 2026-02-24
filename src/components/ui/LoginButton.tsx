@@ -12,7 +12,7 @@ export default function LoginButton({
 }) {
   return (
     <button
-      onClick={() => logIn(provider.provider, "/")}
+      onClick={() => logIn(provider.provider, "/u")}
       className={`${className} cursor-pointer w-full flex items-center gap-2 rounded-lg p-3 border font-bold`}
     >
       <provider.icon width={20} />
