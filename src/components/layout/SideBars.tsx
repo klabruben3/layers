@@ -92,7 +92,7 @@ function LeftSideBar() {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
-              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10 p-global flex flex-col"
+              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10 p-global flex flex-col gap-2"
             >
               <Navigation device={device} extend={extend} />
             </motion.aside>

@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { mainNav, profileNav } from "@/data/navigation";
 import { usePathname } from "next/navigation";
+import LoadingNav from "../effects/LoadingNav";
 
 export default function Navigation({
   device,
@@ -26,10 +27,19 @@ export default function Navigation({
 
   const isOwner = session?.user.id === id;
 
-  if (status === "loading")
-    return <div className="h-[45px] w-[45px] outline-2 animate-spin" />;
+  if (status === "loading") {
+    return (
+      <div className="flex flex-col gap-3">
+        <LoadingNav extend={extend} />
+        <LoadingNav extend={extend} />
+        <LoadingNav extend={extend} />
+      </div>
+    );
+  }
 
-  const navLinks = pathname.startsWith("/u")
+  const isUserPage = pathname.startsWith("/u");
+
+  const navLinks = isUserPage
     ? profileNav.filter((link) => isOwner || link.type !== "private")
     : mainNav;
 
@@ -38,7 +48,7 @@ export default function Navigation({
   return (
     <>
       {navLinks.map((navLink) => (
-        <Button
+        <button
           onClick={() => {
             if (navLink.href) {
               router.push(navLink.href(id));
@@ -48,17 +58,21 @@ export default function Navigation({
           }}
           title={navLink.title}
           key={navLink.title}
-          className={`${
-            (
-              navLink.href
-                ? pathname == navLink.href(id)
-                : navTitle === navLink.title
-            )
-              ? "text-primary bg-[var(--dark-gray)]"
-              : "text-white"
-          } flex gap-2 w-full mb-1`}
+          className={"flex gap-2 flex items-center cursor-pointer group"}
         >
-          <navLink.icon width={24} />
+          <div
+            className={`${
+              (
+                navLink.href
+                  ? pathname == navLink.href(id)
+                  : navTitle === navLink.title
+              )
+                ? "bg-[wheat]/20 text-white outline-2 outline-primary"
+                : "text-[wheat]/35 group-hover:text-primary"
+            } rounded-full w-8 h-8 flex items-center justify-center`}
+          >
+            <navLink.icon width={20} />
+          </div>
           <AnimatePresence>
             {(device == "mobile" || device == "desktop" || extend) && (
               <motion.div
@@ -68,13 +82,25 @@ export default function Navigation({
                 transition={{ duration: 0.2 }}
                 className="overflow-hidden"
               >
-                <span className="block whitespace-nowrap">{navLink.title}</span>
+                <span
+                  className={`${
+                    (
+                      navLink.href
+                        ? pathname == navLink.href(id)
+                        : navTitle === navLink.title
+                    )
+                      ? "text-white"
+                      : "text-white/35 group-hover:text-primary scale-90 group-hover:scale-100 origin-left transition-transform duration-200"
+                  } block whitespace-nowrap`}
+                >
+                  {navLink.title}
+                </span>
               </motion.div>
             )}
           </AnimatePresence>
-        </Button>
+        </button>
       ))}
-      <div className="h-[1px] bg-[var(--gray)] mx-1" />
+      {!isUserPage && <div className="h-[1px] bg-[var(--gray)] mx-1" />}
       {session && !isUserProfile && (
         <button
           onClick={() => router.push(`/u/${session.user?.id}/dashboard`)}
