@@ -14,8 +14,7 @@ function LeftSideBar() {
   const [navState, setNavState] = useState<NavProp>("closed");
   const [extend, setExtend] = useState(false);
   const { setWidth } = useSidebarContext();
-
-  let timeoutId: ReturnType<typeof setTimeout>;
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
@@ -36,12 +35,8 @@ function LeftSideBar() {
     const el = sidebarRef.current;
     if (!el) return;
 
-    timeoutId = setTimeout(() => {
-      setWidth(el.offsetWidth);
-    }, 500);
-
-    return () => clearTimeout(timeoutId)
-  }, [navState, extend]);
+    if (animationComplete) setWidth(el.offsetWidth);
+  }, [animationComplete]);
 
   usePointerReveal({
     enabled: device === "mobile",
@@ -69,7 +64,7 @@ function LeftSideBar() {
       {device == "mobile" && (
         <div
           ref={triggerRef}
-          className="z-5 absolute left-0 top-0 w-3 h-full"
+          className="z-5 absolute left-0 top-0 w-5 h-full"
         />
       )}
       <AnimatePresence>
@@ -85,9 +80,13 @@ function LeftSideBar() {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
-              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10 p-global flex flex-col gap-2"
+              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[500px]:static z-10 p-global flex flex-col gap-2 overflow-hidden"
             >
-              <Navigation device={device} extend={extend} />
+              <Navigation
+                device={device}
+                extend={extend}
+                setAnimationComplete={setAnimationComplete}
+              />
             </motion.aside>
 
             {device == "mobile" && (

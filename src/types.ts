@@ -26,8 +26,8 @@ export type NavProp = "open" | "closed";
 export interface NavLinkProp {
   title: string;
   icon: LucideIcon;
-  href?: (id:string) => string
-  type?: "private" | "public"
+  href?: (id: string) => string;
+  type?: "private" | "public";
 }
 
 export type Provider =

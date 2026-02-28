@@ -11,9 +11,11 @@ import LoadingNav from "../effects/LoadingNav";
 export default function Navigation({
   device,
   extend,
+  setAnimationComplete,
 }: {
   device: Device | null;
   extend: boolean;
+  setAnimationComplete: (animationComplete: boolean) => void;
 }) {
   const { navTitle, setNavTitle } = useNavContext();
   const router = useRouter();
@@ -44,7 +46,18 @@ export default function Navigation({
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{
+          width:
+            device == "mobile" || device == "desktop" || extend ? "auto" : 0,
+        }}
+        exit={{ width: 0 }}
+        onAnimationStart={() => setAnimationComplete(false)}
+        onAnimationComplete={() => setAnimationComplete(true)}
+        transition={{ duration: 0.2 }}
+        className="flex flex-col gap-2"
+      >
         {navLinks.map((navLink) => (
           <button
             onClick={() => {
@@ -56,7 +69,7 @@ export default function Navigation({
             }}
             title={navLink.title}
             key={navLink.title}
-            className={"flex items-center cursor-pointer group"}
+            className="flex items-center cursor-pointer group"
           >
             <div
               className={`${
@@ -67,51 +80,35 @@ export default function Navigation({
                 )
                   ? "bg-[wheat]/20 text-white outline-2 outline-primary"
                   : "text-[wheat]/35 group-hover:text-primary"
-              } rounded-full w-8 h-8 flex items-center justify-center`}
+              } rounded-full w-8 h-8 flex items-center justify-center shrink-0`}
             >
               <navLink.icon width={20} />
             </div>
             <AnimatePresence>
               {(device == "mobile" || device == "desktop" || extend) && (
-                <>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: 10 }}
-                    exit={{ width: 0 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "auto" }}
-                    exit={{ width: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                  >
-                    <span
-                      className={`${
-                        (
-                          navLink.href
-                            ? pathname == navLink.href(id)
-                            : navTitle === navLink.title
-                        )
-                          ? "text-white"
-                          : "text-white/35 group-hover:text-primary scale-90 group-hover:scale-100 origin-left transition-transform duration-200"
-                      } block whitespace-nowrap`}
-                    >
-                      {navLink.title}
-                    </span>
-                  </motion.div>
-                </>
+                <span
+                  className={`${
+                    (
+                      navLink.href
+                        ? pathname == navLink.href(id)
+                        : navTitle === navLink.title
+                    )
+                      ? "text-white"
+                      : "text-white/35 group-hover:text-primary scale-90 group-hover:scale-100 origin-left transition-transform duration-200"
+                  } block whitespace-nowrap ml-[10px]`}
+                >
+                  {navLink.title}
+                </span>
               )}
             </AnimatePresence>
           </button>
         ))}
-      </div>
+      </motion.div>
       {!isUserPage && <div className="h-[1px] bg-[var(--gray)] mx-1" />}
       {session && !isUserPage && (
         <button
           onClick={() => router.push(`/u/${session.user?.id}/dashboard`)}
-          className="w-[45px] h-[45px] border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"
+          className="w-8 h-8 border-2 border-primary rounded-full cursor-pointer mt-auto overflow-hidden"
         >
           <img
             src={session.user?.image ?? "/default-avatar.png"}
