@@ -44,67 +44,69 @@ export default function Navigation({
 
   return (
     <>
-      {navLinks.map((navLink) => (
-        <button
-          onClick={() => {
-            if (navLink.href) {
-              router.push(navLink.href(id));
-            } else {
-              setNavTitle(navLink.title);
-            }
-          }}
-          title={navLink.title}
-          key={navLink.title}
-          className={"flex items-center cursor-pointer group"}
-        >
-          <div
-            className={`${
-              (
-                navLink.href
-                  ? pathname == navLink.href(id)
-                  : navTitle === navLink.title
-              )
-                ? "bg-[wheat]/20 text-white outline-2 outline-primary"
-                : "text-[wheat]/35 group-hover:text-primary"
-            } rounded-full w-8 h-8 flex items-center justify-center`}
+      <div className="flex flex-col gap-2">
+        {navLinks.map((navLink) => (
+          <button
+            onClick={() => {
+              if (navLink.href) {
+                router.push(navLink.href(id));
+              } else {
+                setNavTitle(navLink.title);
+              }
+            }}
+            title={navLink.title}
+            key={navLink.title}
+            className={"flex items-center cursor-pointer group"}
           >
-            <navLink.icon width={20} />
-          </div>
-          <AnimatePresence>
-            {(device == "mobile" || device == "desktop" || extend) && (
-              <>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: 10 }}
-                  exit={{ width: 0 }}
-                  transition={{ duration: 0.2 }}
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "auto" }}
-                  exit={{ width: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="overflow-hidden"
-                >
-                  <span
-                    className={`${
-                      (
-                        navLink.href
-                          ? pathname == navLink.href(id)
-                          : navTitle === navLink.title
-                      )
-                        ? "text-white"
-                        : "text-white/35 group-hover:text-primary scale-90 group-hover:scale-100 origin-left transition-transform duration-200"
-                    } block whitespace-nowrap`}
+            <div
+              className={`${
+                (
+                  navLink.href
+                    ? pathname == navLink.href(id)
+                    : navTitle === navLink.title
+                )
+                  ? "bg-[wheat]/20 text-white outline-2 outline-primary"
+                  : "text-[wheat]/35 group-hover:text-primary"
+              } rounded-full w-8 h-8 flex items-center justify-center`}
+            >
+              <navLink.icon width={20} />
+            </div>
+            <AnimatePresence>
+              {(device == "mobile" || device == "desktop" || extend) && (
+                <>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: 10 }}
+                    exit={{ width: 0 }}
+                    transition={{ duration: 0.2 }}
+                  />
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "auto" }}
+                    exit={{ width: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
                   >
-                    {navLink.title}
-                  </span>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </button>
-      ))}
+                    <span
+                      className={`${
+                        (
+                          navLink.href
+                            ? pathname == navLink.href(id)
+                            : navTitle === navLink.title
+                        )
+                          ? "text-white"
+                          : "text-white/35 group-hover:text-primary scale-90 group-hover:scale-100 origin-left transition-transform duration-200"
+                      } block whitespace-nowrap`}
+                    >
+                      {navLink.title}
+                    </span>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </button>
+        ))}
+      </div>
       {!isUserPage && <div className="h-[1px] bg-[var(--gray)] mx-1" />}
       {session && !isUserPage && (
         <button
