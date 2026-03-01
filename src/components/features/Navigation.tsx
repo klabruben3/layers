@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { mainNav, profileNav } from "@/data/navigation";
 import { usePathname } from "next/navigation";
-import LoadingNav from "../effects/LoadingNav";
+import {RingSpin} from "../effects";
 
 export default function Navigation({
   device,
@@ -30,11 +30,7 @@ export default function Navigation({
 
   if (status === "loading") {
     return (
-      <div className="flex flex-col gap-3">
-        <LoadingNav extend={extend} />
-        <LoadingNav extend={extend} />
-        <LoadingNav extend={extend} />
-      </div>
+      <RingSpin className="m-1" />
     );
   }
 
