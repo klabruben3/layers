@@ -59,7 +59,6 @@ export default function SmartHeader({ children }: Children) {
               className="z-5 absolute left-0 flex gap-2 p-global"
             >
               <Search className="flex-1 outline-2 outline-primary" />
-              <Post />
             </motion.div>
           )}
         </AnimatePresence>

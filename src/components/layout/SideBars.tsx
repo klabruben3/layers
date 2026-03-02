@@ -64,7 +64,7 @@ function LeftSideBar() {
       {device == "mobile" && (
         <div
           ref={triggerRef}
-          className="z-5 absolute left-0 top-0 w-5 h-full"
+          className="z-5 absolute left-0 top-0 w-3 h-full"
         />
       )}
       <AnimatePresence>
@@ -80,11 +80,12 @@ function LeftSideBar() {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
-              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[501px]:static z-10 p-global flex flex-col gap-2 overflow-hidden"
+              className="select-none h-full bg-background/30 border-r-2 border-[var(--gray)] absolute min-[501px]:static z-10 p-global flex flex-col gap-global overflow-hidden"
             >
               <Navigation
                 device={device}
                 extend={extend}
+                animationComplete={animationComplete}
                 setAnimationComplete={setAnimationComplete}
               />
             </motion.aside>
