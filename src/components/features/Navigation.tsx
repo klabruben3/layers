@@ -1,6 +1,6 @@
 "use client";
 
-import { Device, useNavContext } from "@/contexts";
+import { Device, useNavContext, useStepContext } from "@/contexts";
 import { AnimatePresence, motion } from "motion/react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
@@ -9,19 +9,19 @@ import { usePathname } from "next/navigation";
 import { RingSpin } from "../effects";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { NavLinkProp } from "@/types";
 
 export default function Navigation({
   device,
   extend,
-  animationComplete,
   setAnimationComplete,
 }: {
   device: Device | null;
   extend: boolean;
   setAnimationComplete: (animationComplete: boolean) => void;
-  animationComplete: boolean;
 }) {
-  const [showPost, setShowPost] = useState(false);
+  const { setValue: setPostStep } = useStepContext();
+  const [showPostButton, setShowPostButton] = useState(false);
   const { navTitle, setNavTitle } = useNavContext();
   const router = useRouter();
 
@@ -32,6 +32,11 @@ export default function Navigation({
   const { id } = useParams<{ id: string }>();
 
   const isOwner = session?.user.id === id;
+  const postNavSteps = ["Details", "Code", "Dependencies", "Preview"];
+  const postLinks: NavLinkProp[] = postNavSteps.map((step, i) => ({
+    title: step,
+    icon: () => <span>{i + 1}</span>,
+  }));
 
   if (status === "loading") {
     return <RingSpin className="m-1" />;
@@ -39,9 +44,18 @@ export default function Navigation({
 
   const isUserPage = pathname.startsWith("/u");
 
-  const navLinks = isUserPage
-    ? profileNav.filter((link) => isOwner || link.type !== "private")
-    : mainNav;
+  const isPostPage = pathname.startsWith("/post");
+
+  // Filter out nav links
+  let navLinks;
+
+  if (isPostPage) {
+    navLinks = postLinks;
+  } else if (isUserPage) {
+    navLinks = profileNav.filter((link) => isOwner || link.type !== "private");
+  } else {
+    navLinks = mainNav;
+  }
 
   return (
     <>
@@ -55,10 +69,11 @@ export default function Navigation({
               : "32px",
         }}
         exit={{ width: 0 }}
+        key={"Side Navigation"}
         onAnimationStart={() => setAnimationComplete(false)}
         onAnimationComplete={() => {
           setAnimationComplete(true);
-          setShowPost(extend ? true : false);
+          setShowPostButton(extend ? true : false);
         }}
         transition={{ duration: 0.2 }}
         className="flex flex-col gap-2"
@@ -66,14 +81,14 @@ export default function Navigation({
         {navLinks.map((navLink, i) => (
           <button
             onClick={() => {
-              if (navLink.href) {
-                router.push(navLink.href(id));
-              } else {
-                setNavTitle(navLink.title);
-              }
+              navLink.href
+                ? router.push(navLink.href(id))
+                : setNavTitle(navLink.title);
+
+              if (isPostPage) setPostStep(i + 1);
             }}
             title={navLink.title}
-            key={navLink.title}
+            key={navLink.title + i}
             className="flex items-center cursor-pointer group"
           >
             <div
@@ -114,12 +129,10 @@ export default function Navigation({
         ))}
       </motion.div>
       {!isUserPage && <div className="h-[1px] bg-[var(--gray)] mx-1" />}
-      {/* {device === "tablet" && !extend && (
-        <button className="rounded-md w-8 h-8 flex items-center justify-center cursor-pointer bg-[wheat]/20 focus:outline-2 outline-zinc-500 active:text-primary">
-          <Menu width={20} />
-        </button>
-        )} */}
-      <button className="flex items-center cursor-pointer gap-global group">
+      <button
+        className="flex items-center cursor-pointer gap-global group"
+        onClick={() => router.push("/post")}
+      >
         <div className="rounded-md w-8 h-8 bg-[wheat]/20 outline-2 outline-zinc-500 flex justify-center items-center">
           <Plus
             width={20}
@@ -128,7 +141,7 @@ export default function Navigation({
         </div>
         {(device == "mobile" ||
           device == "desktop" ||
-          (showPost && extend)) && (
+          (showPostButton && extend)) && (
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

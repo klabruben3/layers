@@ -25,7 +25,7 @@ export type NavProp = "open" | "closed";
 
 export interface NavLinkProp {
   title: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
   href?: (id: string) => string;
   type?: "private" | "public";
 }

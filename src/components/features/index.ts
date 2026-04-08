@@ -2,3 +2,8 @@ export { default as Navigation } from "./Navigation";
 export { default as HeaderActions } from "./HeaderActions";
 export { default as SmartHeader } from "./SmartHeader";
 export { default as LoginCard } from "./LoginCard";
+export { default as StepIndicator } from "./post-steps/StepIndicator";
+export { default as Step1Details } from "./post-steps/Step1Details";
+export { default as Step2Code } from "./post-steps/Step2Code";
+export { default as Step3Dependencies } from "./post-steps/Step3Dependencies";
+export { default as Step4Preview } from "./post-steps/Step4Preview";

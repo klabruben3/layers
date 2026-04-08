@@ -3,6 +3,7 @@ import {
   MediaQueryProvider,
   NavigationContextProvider,
   SidebarWidthProvider,
+  StepContextProvider,
   ThemeProvider,
 } from "@/contexts";
 import type { Metadata, Viewport } from "next";
@@ -47,8 +48,10 @@ export default function RootLayout({
                   </LoginContextProvider>
                   <main className="relative overflow-hidden flex h-screen">
                     <NavigationContextProvider>
-                      <LeftSideBar />
-                      <div className="relative flex-1 h-full">{children}</div>
+                      <StepContextProvider>
+                        <LeftSideBar />
+                        <div className="relative flex-1 h-full">{children}</div>
+                      </StepContextProvider>
                     </NavigationContextProvider>
                     <RightSideBar />
                   </main>

@@ -85,7 +85,6 @@ function LeftSideBar() {
               <Navigation
                 device={device}
                 extend={extend}
-                animationComplete={animationComplete}
                 setAnimationComplete={setAnimationComplete}
               />
             </motion.aside>
